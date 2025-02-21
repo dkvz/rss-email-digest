@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"log"
 
-	config "github.com/dkvz/rss-email-digest"
+	rssemaildigest "github.com/dkvz/rss-email-digest"
 )
 
 func main() {
-	conf, err := config.ConfigFromDotEnv()
+	conf, err := rssemaildigest.ConfigFromDotEnv()
 	if err != nil {
 		log.Fatal("Could not load configuration, check if .env exists")
 	}
