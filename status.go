@@ -40,3 +40,7 @@ func (s *State) IsNewGUID(guid string) bool {
 	}
 	return s.latestGUID != guid
 }
+
+func (s *State) LatestGUID() string {
+	return s.latestGUID
+}
