@@ -18,6 +18,8 @@ func main() {
 	// Create the state:
 	state := rssemaildigest.State{}
 
+	// TODO: REORGANIZE ALL OF THIS
+
 	fp := gofeed.NewParser()
 	for {
 		for _, url := range conf.Urls {
@@ -38,7 +40,16 @@ func main() {
 				if err != nil {
 					log.Fatal("cannot write state file")
 				}
-				// Get all the feeds until we reach the latest GUID:
+				// Get all the feeds until we reach the latest GUID
+				// Assemble the data for the notification
+				newItems := []*gofeed.Item{feed.Items[0]}
+				for _, it := range feed.Items[1:] {
+					if it.GUID == latestGuid {
+						break
+					}
+					newItems = append(newItems, it)
+				}
+				// Create the notifiation:
 
 			}
 
