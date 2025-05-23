@@ -19,5 +19,11 @@ We're mostly concerned with the <item> elements, which have these relevant field
 ## Notifications
 Using `gomail` to send email notifications, documentation here: https://pkg.go.dev/gopkg.in/gomail.v2#section-readme
 
+## Status
+For now I'll just save the state in the current directory the script is running in.
+
+Exit with error if the directory is not writable.
+
 ## TODO
+- [] Check if current directory is writable or exit immediately
 - [] Check for email validity
