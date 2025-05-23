@@ -32,9 +32,9 @@ func main() {
 			}
 
 			// Check first item:
-			if state.IsNewGUID(feed.Items[0].GUID) {
-				latestGuid := state.LatestGUID()
-				err := state.SaveLastestGUID(feed.Items[0].GUID)
+			if state.IsNewGUID(url, feed.Items[0].GUID) {
+				latestGuid := state.LatestGUID(url)
+				err := state.SaveLastestGUID(url, feed.Items[0].GUID)
 				if err != nil {
 					log.Fatal("cannot write state file")
 				}

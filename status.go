@@ -1,6 +1,8 @@
 package rssemaildigest
 
 import (
+	"encoding/json"
+	"errors"
 	"os"
 	"strings"
 	"time"
@@ -8,39 +10,60 @@ import (
 
 const statusFilename = "./rss-email-digest.status"
 
+// Map key is going to be the RSS URL
+// Value is the latest GUID
 type State struct {
-	latestGUID string
+	latestGUIDs map[string]string
 }
 
-func (s *State) SaveLastestGUID(guid string) error {
+func ReadState() (error, *State) {
+	// Attempt to read it from disk:
+	content, err := os.ReadFile(statusFilename)
+	if err != nil || len(content) == 0 {
+		return nil, &State{
+			latestGUIDs: make(map[string]string),
+		}
+	}
+
+	var result map[string]string
+	err = json.Unmarshal(content, &result)
+	if err != nil {
+		return errors.New("invalid state file (parsing failed)"), nil
+	}
+
+	return nil, &State{
+		latestGUIDs: result,
+	}
+}
+
+func (s *State) SaveLastestGUID(url string, guid string) error {
 	if guid == "" {
 		// Not supposed to happen.
 		guid = time.Now().String()
 	}
+	s.latestGUIDs[url] = guid
+	jsonData, err := json.Marshal(s.latestGUIDs)
+	if err != nil {
+		panic("can't convert state to JSON")
+	}
 	// First save it to hard drive:
-	err := os.WriteFile(statusFilename, []byte(guid), 0644)
+	err = os.WriteFile(statusFilename, jsonData, 0644)
 	if err != nil {
 		return err
 	}
-	s.latestGUID = guid
 	return nil
 }
 
-func (s *State) IsNewGUID(guid string) bool {
+func (s *State) IsNewGUID(url string, guid string) bool {
 	if guid == "" {
 		return false
 	}
-	// If latestGUID is an empty string, load from disk
-	if s.latestGUID == "" {
-		// We ignore read errors, program will crash on
-		// write errors.
-		content, _ := os.ReadFile(statusFilename)
-		// Chop possible line returns and extra space:
-		s.latestGUID = strings.TrimRight(string(content), " \n\r\t")
+	if latestGuid, ok := s.latestGUIDs[url]; ok {
+		return latestGuid != guid
 	}
-	return s.latestGUID != guid
+	return false
 }
 
-func (s *State) LatestGUID() string {
-	return s.latestGUID
+func (s *State) LatestGUID(url string) string {
+	return s.latestGUIDs[url]
 }
