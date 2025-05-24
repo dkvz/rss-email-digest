@@ -1,6 +1,8 @@
 package notifications
 
 import (
+	"time"
+
 	gomail "gopkg.in/mail.v2"
 )
 
@@ -16,6 +18,8 @@ type Mailer struct {
 func NewMailer(smtpHost string, fromAddr string, toAddr string, notificationSubject string) *Mailer {
 	// Very barebones for now
 	dialer := gomail.NewDialer(smtpHost, 25, "", "")
+	// Setting a lowish timeout
+	dialer.Timeout = 5 * time.Second
 	return &Mailer{
 		dialer,
 		fromAddr,
