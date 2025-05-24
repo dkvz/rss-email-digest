@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const statusFilename = "./rss-email-digest.status"
+const statusFilename = "./rss-email-digest.json"
 
 // Map key is going to be the RSS URL
 // Value is the latest GUID
@@ -60,7 +60,8 @@ func (s *State) IsNewGUID(url string, guid string) bool {
 	if latestGuid, ok := s.latestGUIDs[url]; ok {
 		return latestGuid != guid
 	}
-	return false
+	// Guid wasn't found so it's probably new
+	return true
 }
 
 func (s *State) LatestGUID(url string) string {

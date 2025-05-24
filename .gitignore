@@ -2,3 +2,4 @@ target
 logs
 dist
 .env
+rss-email-digest.json
