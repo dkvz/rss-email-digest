@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -16,24 +15,24 @@ type State struct {
 	latestGUIDs map[string]string
 }
 
-func ReadState() (error, *State) {
+func ReadState() (*State, error) {
 	// Attempt to read it from disk:
 	content, err := os.ReadFile(statusFilename)
 	if err != nil || len(content) == 0 {
-		return nil, &State{
+		return &State{
 			latestGUIDs: make(map[string]string),
-		}
+		}, nil
 	}
 
 	var result map[string]string
 	err = json.Unmarshal(content, &result)
 	if err != nil {
-		return errors.New("invalid state file (parsing failed)"), nil
+		return nil, errors.New("invalid state file (parsing failed)")
 	}
 
-	return nil, &State{
+	return &State{
 		latestGUIDs: result,
-	}
+	}, nil
 }
 
 func (s *State) SaveLastestGUID(url string, guid string) error {

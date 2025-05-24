@@ -22,7 +22,7 @@ func NewMailer(smtpHost string, fromAddr string, toAddr string) *Mailer {
 	}
 }
 
-func (m *Mailer) sendEmail(subject string, content string) error {
+func (m *Mailer) SendEmail(subject string, content string) error {
 	message := gomail.NewMessage()
 	message.SetHeader("From", m.fromAddr)
 	message.SetHeader("To", m.toAddr)
@@ -34,5 +34,5 @@ func (m *Mailer) sendEmail(subject string, content string) error {
 // We should panic if the program can't send error
 // messages, but I'll leave that to the main loop.
 func (m *Mailer) SendError(err error) error {
-	return m.sendEmail("RSS Feed Notifications - Error", err.Error())
+	return m.SendEmail("RSS Feed Notifications - Error", err.Error())
 }

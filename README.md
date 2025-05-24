@@ -27,3 +27,4 @@ Exit with error if the directory is not writable.
 ## TODO
 - [] Check if current directory is writable or exit immediately
 - [] Check for email validity
+- [] We have error notifications by email, should probably send those from errors processing the feeds

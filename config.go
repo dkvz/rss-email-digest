@@ -17,6 +17,7 @@ type Config struct {
 	SleepInterval uint
 	SmtpHost      string
 	EmailFrom     string
+	EmailSubject  string
 }
 
 func ConfigFromDotEnv() (*Config, error) {
@@ -51,6 +52,11 @@ func ConfigFromDotEnv() (*Config, error) {
 	emailFrom := os.Getenv("EMAIL_FROM")
 	if emailFrom == "" {
 		emailFrom = "rss-feed-alerts@localhost.localdomain"
+	}
+
+	emailSubject := os.Getenv("EMAIL_SUBJECT")
+	if emailSubject == "" {
+		emailSubject = "New feed items from watched feeds"
 	}
 
 	c := &Config{
