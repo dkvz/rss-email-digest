@@ -49,10 +49,10 @@ func ProcessUrls(
 			// It's beautiful isn't it?
 			fullBody := strings.Join(notifications, "\r\n\r\n\r\n====================\r\n\r\n\r\n")
 			// Sending email:
-		}
-
-		for _, item := range feed.Items {
-			fmt.Printf("%v; %v; %v; %s\n", item.Title, item.Link, item.GUID, item.Published)
+			err = mailer.SendNotification(fullBody)
+			if err != nil {
+				log.Printf("error sending notification email: %v", err)
+			}
 		}
 	}
 }

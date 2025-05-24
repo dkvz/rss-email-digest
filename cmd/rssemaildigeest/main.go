@@ -16,7 +16,12 @@ func main() {
 	}
 
 	// Create the Mailer:
-	mailer := notifications.NewMailer(conf.SmtpHost, conf.EmailFrom, conf.Email)
+	mailer := notifications.NewMailer(
+		conf.SmtpHost,
+		conf.EmailFrom,
+		conf.Email,
+		conf.EmailSubject,
+	)
 
 	// Create the state:
 	state, err := rssemaildigest.ReadState()
