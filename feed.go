@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/dkvz/rss-email-digest/notifications"
+	"github.com/k3a/html2text"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -71,7 +72,7 @@ func processNotifications(items []*gofeed.Item) []string {
 			"%s\r\n%s\r\n\r\n---\r\n\r\n%v\r\n\r\nLink: %s",
 			it.Title,
 			it.Published,
-			it.Description,
+			html2text.HTML2Text(it.Description),
 			it.Link,
 		)
 		ret[n] = content
