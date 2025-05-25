@@ -38,11 +38,14 @@ Type=simple
 WorkingDirectory=/opt/rss-email-digest
 User=www-data
 Group=www-data
-ExecStart=/opt/rss-email-digest/rss-email-digest
+ExecStart=/opt/rss-email-digest/rssemaildigest
+StandardError=journal
+StandardOutput=journal
 
 [Install]
 WantedBy=multi-user.target
 ```
+Make sure the binary name is correct in ExecStart.
 
 Make sure the user or group is allowed to write to the working directory.
 

@@ -20,6 +20,9 @@ func NewMailer(smtpHost string, fromAddr string, toAddr string, notificationSubj
 	dialer := gomail.NewDialer(smtpHost, 25, "", "")
 	// Setting a lowish timeout
 	dialer.Timeout = 5 * time.Second
+	// I use a local IP for sending, TLS doesn't match
+	// Actually I chose to make sure TLS works
+	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 	return &Mailer{
 		dialer,
 		fromAddr,

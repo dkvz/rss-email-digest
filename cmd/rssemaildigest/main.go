@@ -10,6 +10,11 @@ import (
 )
 
 func main() {
+	// Comment the following line to have log output
+	// timestamps with each line. Unwanted for docker
+	// and systemd.
+	log.SetFlags(0)
+
 	conf, err := rssemaildigest.ConfigFromDotEnv()
 	if err != nil {
 		log.Fatal("Could not load configuration: " + err.Error())
