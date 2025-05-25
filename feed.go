@@ -7,7 +7,6 @@ import (
 
 	"github.com/dkvz/rss-email-digest/notifications"
 	"github.com/mmcdole/gofeed"
-	"jaytaylor.com/html2text"
 )
 
 // Function might panic in case of FS write error
@@ -68,16 +67,11 @@ func ProcessUrls(
 func processNotifications(items []*gofeed.Item) []string {
 	ret := make([]string, len(items))
 	for n, it := range items {
-		// Create a text version of the description as it's often HTML:
-		convertedDesc, err := html2text.FromString(it.Description, html2text.Options{})
-		if err != nil {
-			convertedDesc = it.Description
-		}
 		content := fmt.Sprintf(
 			"%s\r\n%s\r\n\r\n---\r\n\r\n%v\r\n\r\nLink: %s",
 			it.Title,
 			it.Published,
-			convertedDesc,
+			it.Description,
 			it.Link,
 		)
 		ret[n] = content
