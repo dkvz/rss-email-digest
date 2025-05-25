@@ -65,6 +65,7 @@ func ConfigFromDotEnv() (*Config, error) {
 		SleepInterval: sleepInterval32,
 		SmtpHost:      smtpHost,
 		EmailFrom:     emailFrom,
+		EmailSubject:  emailSubject,
 	}
 
 	return c, nil
