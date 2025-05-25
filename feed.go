@@ -33,11 +33,15 @@ func ProcessUrls(
 			// Get all the feeds until we reach the latest GUID
 			// Assemble the data for the notification
 			newItems := []*gofeed.Item{feed.Items[0]}
-			for _, it := range feed.Items[1:] {
-				if it.GUID == latestGuid {
-					break
+			// Only add multiple items if this feed was fetched
+			// before. Otherwise we just report the latest item.
+			if latestGuid != "" {
+				for _, it := range feed.Items[1:] {
+					if it.GUID == latestGuid {
+						break
+					}
+					newItems = append(newItems, it)
 				}
-				newItems = append(newItems, it)
 			}
 			// Create the notification:
 			notifications := processNotifications(newItems)
@@ -62,7 +66,7 @@ func ProcessUrls(
 // Generates the notification bodies
 func processNotifications(items []*gofeed.Item) []string {
 	ret := make([]string, len(items))
-	for _, it := range items {
+	for n, it := range items {
 		content := fmt.Sprintf(
 			"%s\r\n%s\r\n\r\n---\r\n\r\n%v\r\n\r\nLink: %s",
 			it.Title,
@@ -70,7 +74,7 @@ func processNotifications(items []*gofeed.Item) []string {
 			it.Description,
 			it.Link,
 		)
-		ret = append(ret, content)
+		ret[n] = content
 	}
 	return ret
 }

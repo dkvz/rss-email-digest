@@ -50,6 +50,7 @@ Make sure the binary name is correct in ExecStart.
 Make sure the user or group is allowed to write to the working directory.
 
 ## TODO
+- [ ] If the status file wasn't there, we should just report the first item and that's it
 - [ ] Check if current directory is writable or exit immediately
 - [ ] Check for email validity
 - [ ] We have error notifications by email, should probably send those from errors processing the feeds
