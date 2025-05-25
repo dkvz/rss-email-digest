@@ -24,6 +24,28 @@ For now I'll just save the state in the current directory the script is running 
 
 Exit with error if the directory is not writable.
 
+## Systemd script
+
+Put it in /etc/systemd/system/rss-email-digest.service:
+```
+[Unit]
+Description=RSS feed alerts daemon
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/rss-email-digest
+User=www-data
+Group=www-data
+ExecStart=/opt/rss-email-digest/rss-email-digest
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Make sure the user or group is allowed to write to the working directory.
+
 ## TODO
 - [ ] Check if current directory is writable or exit immediately
 - [ ] Check for email validity
