@@ -30,10 +30,6 @@ func ProcessUrls(
 		// Check first item:
 		if state.IsNewGUID(url, feed.Items[0].GUID) {
 			latestGuid := state.LatestGUID(url)
-			err := state.SaveLastestGUID(url, feed.Items[0].GUID)
-			if err != nil {
-				log.Fatal("cannot write state file")
-			}
 			// Get all the feeds until we reach the latest GUID
 			// Assemble the data for the notification
 			newItems := []*gofeed.Item{feed.Items[0]}
@@ -51,7 +47,13 @@ func ProcessUrls(
 			// Sending email:
 			err = mailer.SendNotification(fullBody)
 			if err != nil {
+				// We don't update the state but go on with our life
 				log.Printf("error sending notification email: %v", err)
+			} else {
+				err := state.SaveLastestGUID(url, feed.Items[0].GUID)
+				if err != nil {
+					log.Fatal("cannot write state file")
+				}
 			}
 		}
 	}
