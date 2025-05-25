@@ -9,6 +9,13 @@ See `.env.example` for the available options.
 - SLEEP_INTERVAL (in seconds) is optional and defaults to the const set in `config.go` which should be serveral minutes.
 - SMTP_HOST is optional and defaults to "localhost".
 
+## Building the project
+I run that line manually:
+```
+go build -o target/rssemaildigest cmd/rssemaildigest/main.go
+```
+And I often need "CGO_ENABLED=0" because of my target systems but performance isn't really a priority for this project.
+
 ## Fields to use in the RSS
 We're mostly concerned with the <item> elements, which have these relevant fields:
 * title
@@ -50,7 +57,8 @@ Make sure the binary name is correct in ExecStart.
 Make sure the user or group is allowed to write to the working directory.
 
 ## TODO
-- [ ] If the status file wasn't there, we should just report the first item and that's it
+- [x] If the status file wasn't there, we should just report the first item and that's it
+- [ ] Feed content is usually HTML, we should either render it or make it go through some sort of HTML to text thingy
 - [ ] Check if current directory is writable or exit immediately
 - [ ] Check for email validity
 - [ ] We have error notifications by email, should probably send those from errors processing the feeds
