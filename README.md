@@ -58,7 +58,7 @@ Make sure the user or group is allowed to write to the working directory.
 
 ## TODO
 - [x] If the status file wasn't there, we should just report the first item and that's it
-- [ ] Feed content is usually HTML, we should either render it or make it go through some sort of [HTML to text thingy](https://github.com/jaytaylor/html2text)
+- [ ] Feed content is usually HTML, we should either render it or make it go through some sort of HTML to text thingy
 - [ ] Check if current directory is writable or exit immediately
 - [ ] Check for email validity
 - [ ] We have error notifications by email, should probably send those from errors processing the feeds
